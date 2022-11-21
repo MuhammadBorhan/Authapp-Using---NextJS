@@ -10,6 +10,7 @@ import { useState } from "react";
 import Layout from "../layout/layout";
 import { signIn, signOut } from "next-auth/react";
 import { useFormik } from "formik";
+import login_validate from "../lib/validate";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -18,9 +19,9 @@ const Login = () => {
       email: "",
       password: "",
     },
+    validate: login_validate,
     onSubmit,
   });
-
   async function onSubmit(values) {
     console.log(values);
   }
@@ -56,6 +57,11 @@ const Login = () => {
               <AlternateEmail />
             </span>
           </div>
+          {formik.errors.email && formik.touched.email ? (
+            <span className="text-error">{formik.errors.email}</span>
+          ) : (
+            <></>
+          )}
           <div>
             <input
               type={`${show ? "text" : "password"}`}
@@ -71,6 +77,11 @@ const Login = () => {
               <Fingerprint />
             </span>
           </div>
+          {formik.errors.password && formik.touched.password ? (
+            <span className="text-error">{formik.errors.password}</span>
+          ) : (
+            <></>
+          )}
           <button type="submit" className="btn btn-primary w-2/6 mx-auto">
             Login
           </button>

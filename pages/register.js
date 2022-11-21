@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Layout from "../layout/layout";
 import { useFormik } from "formik";
+import { register_validate } from "../lib/validate";
 
 const Register = () => {
   const [show, setShow] = useState({ password: false, cpassword: false });
@@ -15,6 +16,7 @@ const Register = () => {
       password: "",
       cpassword: "",
     },
+    validate: register_validate,
     onSubmit,
   });
 
@@ -44,6 +46,11 @@ const Register = () => {
               <Person />
             </span>
           </div>
+          {formik.errors.username && formik.touched.username ? (
+            <span className="text-error">{formik.errors.username}</span>
+          ) : (
+            <></>
+          )}
           <div>
             <input
               type="email"
@@ -56,6 +63,11 @@ const Register = () => {
               <AlternateEmail />
             </span>
           </div>
+          {formik.errors.email && formik.touched.email ? (
+            <span className="text-error">{formik.errors.email}</span>
+          ) : (
+            <></>
+          )}
           <div>
             <input
               type={`${show.password ? "text" : "password"}`}
@@ -71,6 +83,11 @@ const Register = () => {
               <Fingerprint />
             </span>
           </div>
+          {formik.errors.password && formik.touched.password ? (
+            <span className="text-error">{formik.errors.password}</span>
+          ) : (
+            <></>
+          )}
           <div>
             <input
               type={`${show.cpassword ? "text" : "password"}`}
@@ -86,6 +103,11 @@ const Register = () => {
               <Fingerprint />
             </span>
           </div>
+          {formik.errors.cpassword && formik.touched.cpassword ? (
+            <span className="text-error">{formik.errors.cpassword}</span>
+          ) : (
+            <></>
+          )}
           <button type="submit" className="btn btn-primary w-2/6 mx-auto">
             Signup
           </button>
