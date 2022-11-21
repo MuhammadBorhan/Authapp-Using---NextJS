@@ -3,9 +3,24 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import Layout from "../layout/layout";
+import { useFormik } from "formik";
 
 const Register = () => {
   const [show, setShow] = useState({ password: false, cpassword: false });
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      email: "",
+      password: "",
+      cpassword: "",
+    },
+    onSubmit,
+  });
+
+  async function onSubmit(values) {
+    console.log(values);
+  }
   return (
     <Layout>
       <Head>
@@ -16,13 +31,14 @@ const Register = () => {
           <h1 className="text-3xl font-bold">Sign Up</h1>
           <p className="text-slate-500">Please Create a New Account</p>
         </div>
-        <form className="flex flex-col gap-2">
+        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-2">
           <div>
             <input
               type="text"
               name="username"
               placeholder="Username"
               className="input input-bordered w-full max-w-xs"
+              {...formik.getFieldProps("username")}
             />
             <span className="relative right-7 cursor-pointer top-0">
               <Person />
@@ -34,6 +50,7 @@ const Register = () => {
               name="email"
               placeholder="Email"
               className="input input-bordered w-full max-w-xs"
+              {...formik.getFieldProps("email")}
             />
             <span className="relative right-7 cursor-pointer top-0">
               <AlternateEmail />
@@ -45,6 +62,7 @@ const Register = () => {
               name="password"
               placeholder="Password"
               className="input input-bordered w-full max-w-xs "
+              {...formik.getFieldProps("password")}
             />
             <span
               onClick={() => setShow({ ...show, password: !show.password })}
@@ -59,6 +77,7 @@ const Register = () => {
               name="cpassword"
               placeholder="Confirm Password"
               className="input input-bordered w-full max-w-xs "
+              {...formik.getFieldProps("cpassword")}
             />
             <span
               onClick={() => setShow({ ...show, cpassword: !show.cpassword })}

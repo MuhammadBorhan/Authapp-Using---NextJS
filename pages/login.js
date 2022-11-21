@@ -8,10 +8,22 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import Layout from "../layout/layout";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
+import { useFormik } from "formik";
 
 const Login = () => {
   const [show, setShow] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit,
+  });
+
+  async function onSubmit(values) {
+    console.log(values);
+  }
 
   async function handleGoogleSignin() {
     signIn("google", { callbackUrl: "http://localhost:3000" });
@@ -31,16 +43,14 @@ const Login = () => {
           <h1 className="text-3xl font-bold">Login</h1>
           <p className="text-slate-500">Please Login</p>
         </div>
-        <form
-          onSubmit={(e) => e.preventDefault()}
-          className="flex flex-col gap-2"
-        >
+        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-2">
           <div>
             <input
               type="email"
               name="email"
               placeholder="Email"
               className="input input-bordered w-full max-w-xs"
+              {...formik.getFieldProps("email")}
             />
             <span className="relative right-7 cursor-pointer top-0">
               <AlternateEmail />
@@ -52,6 +62,7 @@ const Login = () => {
               name="password"
               placeholder="Password"
               className="input input-bordered w-full max-w-xs "
+              {...formik.getFieldProps("password")}
             />
             <span
               onClick={() => setShow(!show)}
