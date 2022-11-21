@@ -16,6 +16,11 @@ const Login = () => {
   async function handleGoogleSignin() {
     signIn("google", { callbackUrl: "http://localhost:3000" });
   }
+
+  async function handleGithubSignin() {
+    signIn("github", { callbackUrl: "http://localhost:3000" });
+  }
+
   return (
     <Layout>
       <Head>
@@ -68,7 +73,10 @@ const Login = () => {
               <Google />{" "}
             </span>
           </button>
-          <button className="btn flex items-center gap-2 bg-slate-300 text-black border-none hover:bg-slate-300 w-4/6 mx-auto">
+          <button
+            onClick={handleGithubSignin}
+            className="btn flex items-center gap-2 bg-slate-300 text-black border-none hover:bg-slate-300 w-4/6 mx-auto"
+          >
             Signin with Github
             <span>
               <GitHub />
